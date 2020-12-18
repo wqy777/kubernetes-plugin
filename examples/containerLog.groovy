@@ -21,7 +21,7 @@ spec:
                 container('maven') {
                     sh 'nc -z localhost:27017 && echo "connected to mongo db"'
                     // sh 'mvn -B clean failsafe:integration-test' // real integration test
-
+                    containerLog(name: 'mongo', returnLog: true, tailingLines: 50, sinceSeconds: 20, limitBytes: 50000)
                     def mongoLog = containerLog(name: 'mongo', returnLog: true, tailingLines: 5, sinceSeconds: 20, limitBytes: 50000)
                     assert mongoLog.contains('connection accepted from 127.0.0.1:')
                     sh 'echo failing build; false'
